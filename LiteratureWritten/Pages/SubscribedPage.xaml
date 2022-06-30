@@ -1,0 +1,57 @@
+﻿<Page x:Class="LiteratureWritten.Pages.SubscribedPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:LiteratureWritten.Pages"
+      mc:Ignorable="d"
+      FontFamily="Poppins"
+      d:DesignHeight="450" d:DesignWidth="910"
+      Title="SubscribedPage"
+      Background="{DynamicResource PrimaryBackgroundColor}">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Vertical" Grid.Column="0" Margin="0,10,0,0">
+            
+            <ListView Height="450" Width="400" x:Name="ListEdition" Grid.Column="0" SelectionChanged="ListEdition_SelectionChanged">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding Editions.Name}"/>
+                            <TextBlock Text="{Binding Date}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackPanel>
+        <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="Subscribed" FontSize="40"/>
+            <TextBlock Text="Name" x:Name="txtNameEdit" Margin="0,20,0,0" FontSize="20"/>
+            <TextBlock Text="Edition Type" x:Name="txtTypeEdit" Margin="0,20,0,0" FontSize="20"/>
+            <TextBlock Text="Cost" x:Name="txtCostEdit" Margin="0,10,0,0" FontSize="20"/>
+            <TextBlock Text="Date" x:Name="txtDateEdit" Margin="0,10,0,0" FontSize="20"/>
+           
+            <StackPanel Orientation="Horizontal" >
+                <TextBlock Text="Term" x:Name="txtTermEdit" Margin="0,10,0,0" FontSize="20"/>
+                <TextBlock Text="Pereodicity Name" x:Name="txtPereodicityEdit" Margin="20,10,0,0" FontSize="20"/>
+            </StackPanel>
+            <TextBlock Text="Delivery" x:Name="txtDelivery" Margin="0,10,0,0" FontSize="20"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="User" x:Name="txtUserEdit" Margin="0,10,0,0" FontSize="20"/>
+                <TextBlock Text="Add new Edition" HorizontalAlignment="Right" FontSize="20" VerticalAlignment="Center" Margin="210,0,0,0" x:Name="txtNewEdition" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"/>
+            </StackPanel>
+           
+            <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                <Button Height="40" Content="Add New" Width="100" x:Name="BtnAddEdit" Click="BtnAddEdit_Click"/>
+                <Button Height="40" Content="Deactive" x:Name="BtnDeactive" Click="BtnDeactive_Click"  Width="100" Margin="10,0,0,0" Cursor="Hand"  />
+                <Button Height="40" Content="Edit" x:Name="BtnEdit" Click="BtnEdit_Click"  Width="100" Margin="10,0,0,0"/>
+
+            </StackPanel>
+            
+        </StackPanel>
+    </Grid>
+</Page>

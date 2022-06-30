@@ -1,0 +1,23 @@
+﻿<Window x:Class="LiteratureWritten.Registration"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LiteratureWritten"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize" FontFamily="Poppins"
+        Title="Registration" Height="450" Width="800"
+        xmlns:material="http://materialdesigninxaml.net/winfx/xaml/themes">
+    <Grid>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Height="300" Width="200">
+            <TextBlock Text="Registration" HorizontalAlignment="Center" FontSize="20"/>
+            <TextBox x:Name="txtLogin" MaxLength="100"  Margin="0,20,0,0" Height="50" Style="{StaticResource MaterialDesignOutlinedTextBox}"
+              material:HintAssist.Hint="Login" Cursor="Arrow"/>
+            <PasswordBox x:Name="txtPassword" Height="50" Style="{StaticResource MaterialDesignOutlinedPasswordBox}"
+              material:HintAssist.Hint="Password" Margin="0,20,0,0" Cursor="Arrow"/>
+            <Button Height="40" Margin="0,20,0,0" Content="Enter" x:Name="BtnAuth" Click="BtnAuth_Click"/>
+            <TextBlock Text="Sign In" FontSize="15" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"/>
+        </StackPanel>
+    </Grid>
+</Window>

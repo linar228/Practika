@@ -1,0 +1,572 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище linar2Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DeliveryMethod">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="EditionReceiving">
+          <Key>
+            <PropertyRef Name="SubEdID" />
+            <PropertyRef Name="date" />
+          </Key>
+          <Property Name="SubEdID" Type="int" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Editions">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="40" />
+          <Property Name="EditionType" Type="int" />
+          <Property Name="Status" Type="bit" />
+          <Property Name="Price" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="EditionType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Periodicity">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="RoleName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="SubscribedEditions">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="datetime" />
+          <Property Name="Edition" Type="int" />
+          <Property Name="SubscriptionTerm" Type="int" />
+          <Property Name="DeliveryMethod" Type="int" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="Status" Type="bit" />
+        </EntityType>
+        <EntityType Name="SubscriptionTerm">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Term" Type="varchar" MaxLength="30" />
+          <Property Name="Periodicity" Type="int" />
+          <Property Name="Subscriber" Type="int" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Login" Type="nvarchar(max)" />
+          <Property Name="RoleId" Type="int" />
+          <Property Name="Password" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_EditionReceiving_SubscribedEditions">
+          <End Role="SubscribedEditions" Type="Self.SubscribedEditions" Multiplicity="1" />
+          <End Role="EditionReceiving" Type="Self.EditionReceiving" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubscribedEditions">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EditionReceiving">
+              <PropertyRef Name="SubEdID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Editions_EditionType">
+          <End Role="EditionType" Type="Self.EditionType" Multiplicity="0..1" />
+          <End Role="Editions" Type="Self.Editions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EditionType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Editions">
+              <PropertyRef Name="EditionType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubscribedEditions_DeliveryMethod">
+          <End Role="DeliveryMethod" Type="Self.DeliveryMethod" Multiplicity="0..1" />
+          <End Role="SubscribedEditions" Type="Self.SubscribedEditions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DeliveryMethod">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SubscribedEditions">
+              <PropertyRef Name="DeliveryMethod" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubscribedEditions_Editions">
+          <End Role="Editions" Type="Self.Editions" Multiplicity="0..1" />
+          <End Role="SubscribedEditions" Type="Self.SubscribedEditions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Editions">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SubscribedEditions">
+              <PropertyRef Name="Edition" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubscribedEditions_SubscriptionTerm">
+          <End Role="SubscriptionTerm" Type="Self.SubscriptionTerm" Multiplicity="0..1" />
+          <End Role="SubscribedEditions" Type="Self.SubscribedEditions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubscriptionTerm">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SubscribedEditions">
+              <PropertyRef Name="SubscriptionTerm" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubscribedEditions_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="SubscribedEditions" Type="Self.SubscribedEditions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SubscribedEditions">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubscriptionTerm_Periodicity">
+          <End Role="Periodicity" Type="Self.Periodicity" Multiplicity="0..1" />
+          <End Role="SubscriptionTerm" Type="Self.SubscriptionTerm" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Periodicity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SubscriptionTerm">
+              <PropertyRef Name="Periodicity" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Roles1">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище linar2ModelContainer">
+          <EntitySet Name="DeliveryMethod" EntityType="Self.DeliveryMethod" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EditionReceiving" EntityType="Self.EditionReceiving" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Editions" EntityType="Self.Editions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EditionType" EntityType="Self.EditionType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Periodicity" EntityType="Self.Periodicity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubscribedEditions" EntityType="Self.SubscribedEditions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubscriptionTerm" EntityType="Self.SubscriptionTerm" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_EditionReceiving_SubscribedEditions" Association="Self.FK_EditionReceiving_SubscribedEditions">
+            <End Role="SubscribedEditions" EntitySet="SubscribedEditions" />
+            <End Role="EditionReceiving" EntitySet="EditionReceiving" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Editions_EditionType" Association="Self.FK_Editions_EditionType">
+            <End Role="EditionType" EntitySet="EditionType" />
+            <End Role="Editions" EntitySet="Editions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubscribedEditions_DeliveryMethod" Association="Self.FK_SubscribedEditions_DeliveryMethod">
+            <End Role="DeliveryMethod" EntitySet="DeliveryMethod" />
+            <End Role="SubscribedEditions" EntitySet="SubscribedEditions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubscribedEditions_Editions" Association="Self.FK_SubscribedEditions_Editions">
+            <End Role="Editions" EntitySet="Editions" />
+            <End Role="SubscribedEditions" EntitySet="SubscribedEditions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubscribedEditions_SubscriptionTerm" Association="Self.FK_SubscribedEditions_SubscriptionTerm">
+            <End Role="SubscriptionTerm" EntitySet="SubscriptionTerm" />
+            <End Role="SubscribedEditions" EntitySet="SubscribedEditions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubscribedEditions_Users" Association="Self.FK_SubscribedEditions_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="SubscribedEditions" EntitySet="SubscribedEditions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubscriptionTerm_Periodicity" Association="Self.FK_SubscriptionTerm_Periodicity">
+            <End Role="Periodicity" EntitySet="Periodicity" />
+            <End Role="SubscriptionTerm" EntitySet="SubscriptionTerm" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Roles1" Association="Self.FK_Users_Roles1">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="linar2Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="DeliveryMethod">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="SubscribedEditions" Relationship="Self.FK_SubscribedEditions_DeliveryMethod" FromRole="DeliveryMethod" ToRole="SubscribedEditions" />
+        </EntityType>
+        <EntityType Name="EditionReceiving">
+          <Key>
+            <PropertyRef Name="SubEdID" />
+            <PropertyRef Name="date" />
+          </Key>
+          <Property Name="SubEdID" Type="Int32" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="SubscribedEditions" Relationship="Self.FK_EditionReceiving_SubscribedEditions" FromRole="EditionReceiving" ToRole="SubscribedEditions" />
+        </EntityType>
+        <EntityType Name="Editions">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="EditionType" Type="Int32" />
+          <Property Name="Status" Type="Boolean" />
+          <Property Name="Price" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="EditionType1" Relationship="Self.FK_Editions_EditionType" FromRole="Editions" ToRole="EditionType" />
+          <NavigationProperty Name="SubscribedEditions" Relationship="Self.FK_SubscribedEditions_Editions" FromRole="Editions" ToRole="SubscribedEditions" />
+        </EntityType>
+        <EntityType Name="EditionType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Editions" Relationship="Self.FK_Editions_EditionType" FromRole="EditionType" ToRole="Editions" />
+        </EntityType>
+        <EntityType Name="Periodicity">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="SubscriptionTerm" Relationship="Self.FK_SubscriptionTerm_Periodicity" FromRole="Periodicity" ToRole="SubscriptionTerm" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Users_Roles1" FromRole="Roles" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="SubscribedEditions">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="Edition" Type="Int32" />
+          <Property Name="SubscriptionTerm" Type="Int32" />
+          <Property Name="DeliveryMethod" Type="Int32" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="Status" Type="Boolean" />
+          <NavigationProperty Name="DeliveryMethod1" Relationship="Self.FK_SubscribedEditions_DeliveryMethod" FromRole="SubscribedEditions" ToRole="DeliveryMethod" />
+          <NavigationProperty Name="EditionReceiving" Relationship="Self.FK_EditionReceiving_SubscribedEditions" FromRole="SubscribedEditions" ToRole="EditionReceiving" />
+          <NavigationProperty Name="Editions" Relationship="Self.FK_SubscribedEditions_Editions" FromRole="SubscribedEditions" ToRole="Editions" />
+          <NavigationProperty Name="SubscriptionTerm1" Relationship="Self.FK_SubscribedEditions_SubscriptionTerm" FromRole="SubscribedEditions" ToRole="SubscriptionTerm" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_SubscribedEditions_Users" FromRole="SubscribedEditions" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="SubscriptionTerm">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Term" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Periodicity" Type="Int32" />
+          <Property Name="Subscriber" Type="Int32" />
+          <NavigationProperty Name="Periodicity1" Relationship="Self.FK_SubscriptionTerm_Periodicity" FromRole="SubscriptionTerm" ToRole="Periodicity" />
+          <NavigationProperty Name="SubscribedEditions" Relationship="Self.FK_SubscribedEditions_SubscriptionTerm" FromRole="SubscriptionTerm" ToRole="SubscribedEditions" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Login" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RoleId" Type="Int32" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Roles" Relationship="Self.FK_Users_Roles1" FromRole="Users" ToRole="Roles" />
+          <NavigationProperty Name="SubscribedEditions" Relationship="Self.FK_SubscribedEditions_Users" FromRole="Users" ToRole="SubscribedEditions" />
+        </EntityType>
+        <Association Name="FK_SubscribedEditions_DeliveryMethod">
+          <End Role="DeliveryMethod" Type="Self.DeliveryMethod" Multiplicity="0..1" />
+          <End Role="SubscribedEditions" Type="Self.SubscribedEditions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DeliveryMethod">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SubscribedEditions">
+              <PropertyRef Name="DeliveryMethod" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EditionReceiving_SubscribedEditions">
+          <End Role="SubscribedEditions" Type="Self.SubscribedEditions" Multiplicity="1" />
+          <End Role="EditionReceiving" Type="Self.EditionReceiving" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubscribedEditions">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="EditionReceiving">
+              <PropertyRef Name="SubEdID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Editions_EditionType">
+          <End Role="EditionType" Type="Self.EditionType" Multiplicity="0..1" />
+          <End Role="Editions" Type="Self.Editions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EditionType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Editions">
+              <PropertyRef Name="EditionType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubscribedEditions_Editions">
+          <End Role="Editions" Type="Self.Editions" Multiplicity="0..1" />
+          <End Role="SubscribedEditions" Type="Self.SubscribedEditions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Editions">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SubscribedEditions">
+              <PropertyRef Name="Edition" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubscriptionTerm_Periodicity">
+          <End Role="Periodicity" Type="Self.Periodicity" Multiplicity="0..1" />
+          <End Role="SubscriptionTerm" Type="Self.SubscriptionTerm" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Periodicity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SubscriptionTerm">
+              <PropertyRef Name="Periodicity" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Roles1">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubscribedEditions_SubscriptionTerm">
+          <End Role="SubscriptionTerm" Type="Self.SubscriptionTerm" Multiplicity="0..1" />
+          <End Role="SubscribedEditions" Type="Self.SubscribedEditions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubscriptionTerm">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SubscribedEditions">
+              <PropertyRef Name="SubscriptionTerm" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubscribedEditions_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="SubscribedEditions" Type="Self.SubscribedEditions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SubscribedEditions">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="linar2Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DeliveryMethod" EntityType="Self.DeliveryMethod" />
+          <EntitySet Name="EditionReceiving" EntityType="Self.EditionReceiving" />
+          <EntitySet Name="Editions" EntityType="Self.Editions" />
+          <EntitySet Name="EditionType" EntityType="Self.EditionType" />
+          <EntitySet Name="Periodicity" EntityType="Self.Periodicity" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" />
+          <EntitySet Name="SubscribedEditions" EntityType="Self.SubscribedEditions" />
+          <EntitySet Name="SubscriptionTerm" EntityType="Self.SubscriptionTerm" />
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <AssociationSet Name="FK_SubscribedEditions_DeliveryMethod" Association="Self.FK_SubscribedEditions_DeliveryMethod">
+            <End Role="DeliveryMethod" EntitySet="DeliveryMethod" />
+            <End Role="SubscribedEditions" EntitySet="SubscribedEditions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EditionReceiving_SubscribedEditions" Association="Self.FK_EditionReceiving_SubscribedEditions">
+            <End Role="SubscribedEditions" EntitySet="SubscribedEditions" />
+            <End Role="EditionReceiving" EntitySet="EditionReceiving" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Editions_EditionType" Association="Self.FK_Editions_EditionType">
+            <End Role="EditionType" EntitySet="EditionType" />
+            <End Role="Editions" EntitySet="Editions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubscribedEditions_Editions" Association="Self.FK_SubscribedEditions_Editions">
+            <End Role="Editions" EntitySet="Editions" />
+            <End Role="SubscribedEditions" EntitySet="SubscribedEditions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubscriptionTerm_Periodicity" Association="Self.FK_SubscriptionTerm_Periodicity">
+            <End Role="Periodicity" EntitySet="Periodicity" />
+            <End Role="SubscriptionTerm" EntitySet="SubscriptionTerm" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Roles1" Association="Self.FK_Users_Roles1">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubscribedEditions_SubscriptionTerm" Association="Self.FK_SubscribedEditions_SubscriptionTerm">
+            <End Role="SubscriptionTerm" EntitySet="SubscriptionTerm" />
+            <End Role="SubscribedEditions" EntitySet="SubscribedEditions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubscribedEditions_Users" Association="Self.FK_SubscribedEditions_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="SubscribedEditions" EntitySet="SubscribedEditions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище linar2ModelContainer" CdmEntityContainer="linar2Entities">
+          <EntitySetMapping Name="DeliveryMethod">
+            <EntityTypeMapping TypeName="linar2Model.DeliveryMethod">
+              <MappingFragment StoreEntitySet="DeliveryMethod">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EditionReceiving">
+            <EntityTypeMapping TypeName="linar2Model.EditionReceiving">
+              <MappingFragment StoreEntitySet="EditionReceiving">
+                <ScalarProperty Name="SubEdID" ColumnName="SubEdID" />
+                <ScalarProperty Name="date" ColumnName="date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Editions">
+            <EntityTypeMapping TypeName="linar2Model.Editions">
+              <MappingFragment StoreEntitySet="Editions">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="EditionType" ColumnName="EditionType" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EditionType">
+            <EntityTypeMapping TypeName="linar2Model.EditionType">
+              <MappingFragment StoreEntitySet="EditionType">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Periodicity">
+            <EntityTypeMapping TypeName="linar2Model.Periodicity">
+              <MappingFragment StoreEntitySet="Periodicity">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="linar2Model.Roles">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubscribedEditions">
+            <EntityTypeMapping TypeName="linar2Model.SubscribedEditions">
+              <MappingFragment StoreEntitySet="SubscribedEditions">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Edition" ColumnName="Edition" />
+                <ScalarProperty Name="SubscriptionTerm" ColumnName="SubscriptionTerm" />
+                <ScalarProperty Name="DeliveryMethod" ColumnName="DeliveryMethod" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubscriptionTerm">
+            <EntityTypeMapping TypeName="linar2Model.SubscriptionTerm">
+              <MappingFragment StoreEntitySet="SubscriptionTerm">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Term" ColumnName="Term" />
+                <ScalarProperty Name="Periodicity" ColumnName="Periodicity" />
+                <ScalarProperty Name="Subscriber" ColumnName="Subscriber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="linar2Model.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

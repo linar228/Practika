@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4147d46acd094063b6e4dff5511439bd" Name="Diagram1">
+        <EntityTypeShape EntityType="linar2Model.DeliveryMethod" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="linar2Model.EditionReceiving" Width="1.5" PointX="7.5" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="linar2Model.Editions" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="linar2Model.EditionType" Width="1.5" PointX="0.75" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="linar2Model.Periodicity" Width="1.5" PointX="0.75" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="linar2Model.Roles" Width="1.5" PointX="0.75" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="linar2Model.SubscribedEditions" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="linar2Model.SubscriptionTerm" Width="1.5" PointX="3" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="linar2Model.Users" Width="1.5" PointX="3" PointY="10.25" IsExpanded="true" />
+        <AssociationConnector Association="linar2Model.FK_SubscribedEditions_DeliveryMethod" ManuallyRouted="false" />
+        <AssociationConnector Association="linar2Model.FK_EditionReceiving_SubscribedEditions" ManuallyRouted="false" />
+        <AssociationConnector Association="linar2Model.FK_Editions_EditionType" ManuallyRouted="false" />
+        <AssociationConnector Association="linar2Model.FK_SubscribedEditions_Editions" ManuallyRouted="false" />
+        <AssociationConnector Association="linar2Model.FK_SubscriptionTerm_Periodicity" ManuallyRouted="false" />
+        <AssociationConnector Association="linar2Model.FK_Users_Roles1" ManuallyRouted="false" />
+        <AssociationConnector Association="linar2Model.FK_SubscribedEditions_SubscriptionTerm" ManuallyRouted="false" />
+        <AssociationConnector Association="linar2Model.FK_SubscribedEditions_Users" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
